@@ -38,6 +38,7 @@ val Error90 = Color(0xFFffdad6)
 
 val Neutral = Color(0xFFebebeb)
 val Neutral10 = Color(0xFF001f25)
+val Neutral90 = Color(0xFFa6eeff)
 val Neutral99 = Color(0xFFf8fdff)
 
 val NeutralVariant50 = Color(0xFF73777f)
