@@ -2,8 +2,10 @@ package com.tasdiqdewan.themoviedb.di
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.tasdiqdewan.themoviedb.utils.Constants.API_KEY
+import com.tasdiqdewan.themoviedb.BuildConfig
+import com.tasdiqdewan.themoviedb.data.ApiServices
 import com.tasdiqdewan.themoviedb.utils.Constants.BASE_URL
+import com.tasdiqdewan.themoviedb.utils.Constants.BEARER_TOKEN
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,12 +13,9 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import javax.inject.Singleton
-import com.tasdiqdewan.themoviedb.BuildConfig
-import com.tasdiqdewan.themoviedb.data.ApiServices
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -46,7 +45,7 @@ object ApiModule {
             val request = chain.request()
                 .newBuilder()
                 .url(url)
-                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MGMyZDE0NTA3MTc4ODRiYWMxNWVmNmI0N2RiMzA4YyIsInN1YiI6IjYzZmQzZGFlN2E0ZWU3MDBmMGY4Y2VmZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hyJ7c2G4yRo44UhvrdL3k7eFq10ahxgYIhnTKmq7lLs")
+                .addHeader("Authorization", "Bearer $BEARER_TOKEN")
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build()
             return@Interceptor chain.proceed(request)
