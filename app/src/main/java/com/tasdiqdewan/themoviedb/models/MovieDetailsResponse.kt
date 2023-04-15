@@ -2,7 +2,7 @@ package com.tasdiqdewan.themoviedb.models
 
 import com.squareup.moshi.Json
 
-data class MovieDetails(
+data class MovieDetailsResponse(
     val adult: Boolean,
     @Json(name = "backdrop_path") val backdropPath: String,
     @Json(name = "belongs_to_collection") val belongsToCollection: MovieCollection,

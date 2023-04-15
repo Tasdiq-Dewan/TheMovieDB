@@ -2,7 +2,7 @@ package com.tasdiqdewan.themoviedb.models
 
 import com.squareup.moshi.Json
 
-data class MoviesList(
+data class MoviesListResponse(
     val page: Int,
     val results: List<Result>,
     @Json(name = "total_pages") val totalPages: Int,
