@@ -1,6 +1,7 @@
 package com.tasdiqdewan.themoviedb
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,19 +23,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
+import com.tasdiqdewan.themoviedb.data.MoviesRepository
 import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject lateinit var moviesRepository: MoviesRepository
+
+    private var movieName = mutableStateOf("")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            val response = moviesRepository.getPopularMoviesList()
+            Log.v("API_RESPONSE", response.isSuccessful.toString())
+            movieName.value = response.body()?.results?.get(0)?.title ?: ""
+        }
         setContent {
-            TheMovieDBApp()
+            TheMovieDBApp(movieName = movieName.value)
         }
     }
 }
 
 @Composable
 fun TheMovieDBApp(
+    movieName: String,
     darkTheme: Boolean = isSystemInDarkTheme()
 ) {
     var darkTheme by rememberSaveable { mutableStateOf(darkTheme) }
@@ -45,7 +61,7 @@ fun TheMovieDBApp(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            Greeting("Android", changeTheme = { darkTheme = !darkTheme })
+            Greeting(movieName, changeTheme = { darkTheme = !darkTheme })
         }
     }
 }
