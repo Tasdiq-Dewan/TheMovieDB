@@ -35,10 +35,9 @@ class HomeViewModel @Inject constructor(
             catch(e: HttpException) {
                 HomePopularMovies.Error
             }
-
-            _state.emit(
-                _state.value.copy(popularMovies = popularMovies)
-            )
+            _state.value.copy(popularMovies = popularMovies).let {
+                _state.emit(it)
+            }
         }
     }
 
