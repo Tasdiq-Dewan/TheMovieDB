@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -25,7 +26,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getPopularMovies() {
         viewModelScope.launch {
-            _state.value.popularMovies = try {
+            val popularMovies = try {
                 HomePopularMovies.Success(moviesRepository.getPopularMoviesList().body()?.results ?: listOf())
             }
             catch(e: IOException) {
@@ -34,6 +35,16 @@ class HomeViewModel @Inject constructor(
             catch(e: HttpException) {
                 HomePopularMovies.Error
             }
+
+            _state.emit(
+                _state.value.copy(popularMovies = popularMovies)
+            )
+        }
+    }
+
+    fun updateSelectedId(id: Int) {
+        _state.update { currentState ->
+            currentState.copy(selectedId = id)
         }
     }
 }
