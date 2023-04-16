@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.tasdiqdewan.themoviedb.data.MoviesRepository
+import com.tasdiqdewan.themoviedb.ui.TheMovieDBNavHost
 import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,14 +39,19 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            val response = moviesRepository.getPopularMoviesList()
-            Log.v("API_RESPONSE", response.isSuccessful.toString())
-            movieName.value = response.body()?.results?.get(0)?.title ?: ""
-        }
         setContent {
-            TheMovieDBApp(movieName = movieName.value)
+            TheMovieDBTheme {
+                TheMovieDBNavHost()
+            }
         }
+//        lifecycleScope.launch {
+//            val response = moviesRepository.getPopularMoviesList()
+//            Log.v("API_RESPONSE", response.isSuccessful.toString())
+//            movieName.value = response.body()?.results?.get(0)?.title ?: ""
+//        }
+//        setContent {
+//            TheMovieDBApp(movieName = movieName.value)
+//        }
     }
 }
 

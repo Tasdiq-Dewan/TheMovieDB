@@ -3,6 +3,7 @@ package com.tasdiqdewan.themoviedb.ui.screens.home
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,7 +17,11 @@ fun HomeScreen(
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-        
+        when(state.popularMovies) {
+            is HomePopularMovies.Loading -> Text("Loading")
+            is HomePopularMovies.Success -> Text((state.popularMovies as HomePopularMovies.Success).popularMoviesList[0].title)
+            is HomePopularMovies.Error -> Text("Error")
+        }
     }
 }
 
