@@ -4,8 +4,8 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.tasdiqdewan.themoviedb.BuildConfig
 import com.tasdiqdewan.themoviedb.data.ApiServices
-import com.tasdiqdewan.themoviedb.utils.Constants.BASE_URL
-import com.tasdiqdewan.themoviedb.utils.Constants.BEARER_TOKEN
+import com.tasdiqdewan.utils.Constants.BASE_URL
+import com.tasdiqdewan.utils.Constants.BEARER_TOKEN
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

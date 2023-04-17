@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "TheMovieDB"
 include ':app'
 include ':compose_library'
+include ':utils'

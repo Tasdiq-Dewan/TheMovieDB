@@ -1,4 +1,4 @@
-package com.tasdiqdewan.themoviedb.utils
+package com.tasdiqdewan.utils
 
 object Constants {
     const val API_KEY = "50c2d1450717884bac15ef6b47db308c"
