@@ -1,4 +1,4 @@
-package com.tasdiqdewan.themoviedb.ui.screens.home
+package com.tasdiqdewan.themoviedb.ui.home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues

@@ -1,4 +1,4 @@
-package com.tasdiqdewan.themoviedb.ui.screens.home
+package com.tasdiqdewan.themoviedb.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,7 +27,9 @@ class HomeViewModel @Inject constructor(
     private fun getPopularMovies() {
         viewModelScope.launch {
             val popularMovies = try {
-                HomePopularMovies.Success(moviesRepository.getPopularMoviesList().body()?.results ?: listOf())
+                HomePopularMovies.Success(
+                    moviesRepository.getPopularMoviesList().body()?.results ?: listOf()
+                )
             }
             catch(e: IOException) {
                 HomePopularMovies.Error

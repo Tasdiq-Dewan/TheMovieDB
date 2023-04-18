@@ -1,4 +1,4 @@
-package com.tasdiqdewan.themoviedb.ui.screens.home
+package com.tasdiqdewan.themoviedb.ui.home
 
 import com.tasdiqdewan.themoviedb.models.MoviesListResponse
 

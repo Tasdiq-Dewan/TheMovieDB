@@ -1,9 +1,15 @@
 package com.tasdiqdewan.compose_library.composables
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,23 +35,26 @@ fun MovieResult(
 ) {
     Card(
         modifier = modifier
-            .wrapContentSize()
+            .heightIn(min = 240.dp)
+            .width(400.dp)
+            .padding(8.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxWidth()
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(POSTER_BASE_URL+"w200"+posterPath)
+                    .data(POSTER_BASE_URL+"w300"+posterPath)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.loading_img),
                 contentDescription = ""
             )
-            Text(text = title)
-            Text(text = releaseDate)
+            Text(text = title, style = MaterialTheme.typography.titleMedium)
+            Text(text = releaseDate, style = MaterialTheme.typography.labelLarge)
         }
     }
 }
