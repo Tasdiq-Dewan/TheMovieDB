@@ -1,12 +1,16 @@
 package com.tasdiqdewan.compose_library.composables
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +25,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.tasdiqdewan.compose_library.R
+import com.tasdiqdewan.utils.Constants.DAY_SHORT_MONTH_YEAR
 import com.tasdiqdewan.utils.Constants.POSTER_BASE_URL
+import com.tasdiqdewan.utils.convertToDateFormat
 
 @Composable
 fun MovieResult(
@@ -56,22 +62,22 @@ fun MovieResult(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp)),
             )
+            Spacer(modifier = Modifier.height(4.dp))
+            Box(contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(
+                    progress = voteAverage.toFloat() / 10,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+                Text(text = voteAverage.toString())
+            }
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
             )
-            Column(
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    text = releaseDate,
-                    style = MaterialTheme.typography.labelLarge
-                )
-                Text(
-                    text = voteAverage.toString(),
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
+            Text(
+                text = releaseDate.convertToDateFormat(DAY_SHORT_MONTH_YEAR),
+                style = MaterialTheme.typography.labelLarge
+            )
         }
     }
 }
