@@ -26,7 +26,8 @@ import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
 
 @Composable
 fun HomeScreen(
-    state: HomeScreenState
+    state: HomeScreenState,
+    navigateToDetails: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -71,7 +72,7 @@ fun PopularMoviesGrid(
 @Composable
 fun HomeScreenPreview() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState())
+        HomeScreen(state = HomeScreenState(), {})
     }
 }
 
@@ -79,6 +80,6 @@ fun HomeScreenPreview() {
 @Composable
 fun HomeScreenPreviewDark() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState())
+        HomeScreen(state = HomeScreenState(), {})
     }
 }

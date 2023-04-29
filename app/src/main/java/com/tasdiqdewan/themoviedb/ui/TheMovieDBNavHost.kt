@@ -22,10 +22,12 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.tasdiqdewan.themoviedb.ui.home.HomeScreen
 import com.tasdiqdewan.themoviedb.ui.home.HomeViewModel
 import com.tasdiqdewan.utils.TMDBScreen
@@ -44,7 +46,15 @@ fun TheMovieDBNavHost() {
             composable(TMDBScreen.Home.route) {
                 val homeViewModel: HomeViewModel = hiltViewModel()
                 val homeState by homeViewModel.state.collectAsState()
-                HomeScreen(state = homeState)
+                HomeScreen(
+                    state = homeState
+                ) { navController.navigate(TMDBScreen.Details.route + "/${homeState.selectedId}") }
+            }
+            composable(
+                TMDBScreen.Details.route,
+                arguments = listOf(navArgument("movieId") { type = NavType.IntType })
+            ) {
+
             }
             composable(TMDBScreen.Search.route) {
                 Text(text = "Search")
