@@ -1,6 +1,7 @@
 package com.tasdiqdewan.themoviedb.ui.home
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +28,8 @@ import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
 @Composable
 fun HomeScreen(
     state: HomeScreenState,
-    navigateToDetails: () -> Unit
+    navigateToDetails: () -> Unit,
+    updateSelectedId: (Int) -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -35,7 +37,11 @@ fun HomeScreen(
         when(state.popularMovies) {
             is HomePopularMovies.Loading -> LoadingScreen()
             is HomePopularMovies.Success -> {
-                PopularMoviesGrid(movieList = (state.popularMovies as HomePopularMovies.Success).popularMoviesList)
+                PopularMoviesGrid(
+                    movieList = (state.popularMovies as HomePopularMovies.Success).popularMoviesList,
+                    navigateToDetails = navigateToDetails,
+                    updateSelectedId = updateSelectedId
+                )
             }
             is HomePopularMovies.Error -> ErrorScreen()
         }
@@ -45,6 +51,8 @@ fun HomeScreen(
 @Composable
 fun PopularMoviesGrid(
     movieList: List<MoviesListResponse.Result>,
+    navigateToDetails: () -> Unit,
+    updateSelectedId: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -61,7 +69,15 @@ fun PopularMoviesGrid(
                 releaseDate = movie.releaseDate,
                 posterPath = movie.posterPath,
                 backdropPath = movie.backdropPath,
-                voteAverage = movie.voteAverage
+                voteAverage = movie.voteAverage,
+                modifier = Modifier
+                    .clickable(
+                        enabled = true,
+                        onClickLabel = stringResource(id = R.string.movie_click_label),
+                    ) {
+                        updateSelectedId(movie.id)
+                        navigateToDetails()
+                    }
             )
             }
         }
@@ -72,7 +88,7 @@ fun PopularMoviesGrid(
 @Composable
 fun HomeScreenPreview() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState(), {})
+        HomeScreen(state = HomeScreenState(), {}, {})
     }
 }
 
@@ -80,6 +96,6 @@ fun HomeScreenPreview() {
 @Composable
 fun HomeScreenPreviewDark() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState(), {})
+        HomeScreen(state = HomeScreenState(), {}, {})
     }
 }

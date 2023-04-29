@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -47,11 +48,13 @@ fun TheMovieDBNavHost() {
                 val homeViewModel: HomeViewModel = hiltViewModel()
                 val homeState by homeViewModel.state.collectAsState()
                 HomeScreen(
-                    state = homeState
-                ) { navController.navigate(TMDBScreen.Details.route + "/${homeState.selectedId}") }
+                    state = homeState,
+                    navigateToDetails = { navController.navigate(TMDBScreen.Details.route + "/${homeState.selectedId}") },
+                    updateSelectedId = { selectedId: Int -> homeViewModel.updateSelectedId(selectedId) }
+                )
             }
             composable(
-                TMDBScreen.Details.route,
+                "${TMDBScreen.Details.route}/{movieId}",
                 arguments = listOf(navArgument("movieId") { type = NavType.IntType })
             ) {
 
