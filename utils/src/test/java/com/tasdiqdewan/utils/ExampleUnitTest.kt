@@ -1,4 +1,4 @@
-package com.tasdiqdewan.themoviedb
+package com.tasdiqdewan.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
