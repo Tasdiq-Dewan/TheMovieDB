@@ -10,3 +10,44 @@ object Constants {
     const val DAY_SHORT_MONTH_YEAR = "dd MMM yyyy"
     const val DAY_FULL_MONTH_YEAR = "dd MMMM yyyy"
 }
+
+enum class BackdropSize(val size: String) {
+    W300("w300"),
+    W780("w780"),
+    W1280("w1280"),
+    ORIGINAL("original")
+}
+
+enum class LogoSize(val size: String) {
+    W45("w45"),
+    W92("w92"),
+    W154("w154"),
+    W185("w185"),
+    W300("w300"),
+    W500("w500"),
+    ORIGINAL("original")
+}
+
+enum class PosterSize(val size: String) {
+    W92("w92"),
+    W154("w154"),
+    W185("w185"),
+    W342("w342"),
+    W500("w500"),
+    W780("w780"),
+    ORIGINAL("original")
+}
+
+enum class ProfileSize(val size: String) {
+    W45("w45"),
+    W185("w185"),
+    H632("h632"),
+    ORIGINAL("original")
+}
+
+enum class StillSize(val size: String) {
+    W92("w92"),
+    W185("w185"),
+    W300("w300"),
+    ORIGINAL("original")
+}

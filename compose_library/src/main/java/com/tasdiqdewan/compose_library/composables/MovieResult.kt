@@ -27,6 +27,7 @@ import coil.request.ImageRequest
 import com.tasdiqdewan.compose_library.R
 import com.tasdiqdewan.utils.Constants.DAY_SHORT_MONTH_YEAR
 import com.tasdiqdewan.utils.Constants.POSTER_BASE_URL
+import com.tasdiqdewan.utils.PosterSize
 import com.tasdiqdewan.utils.convertToDateFormat
 
 @Composable
@@ -53,7 +54,7 @@ fun MovieResult(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(POSTER_BASE_URL+"w300"+posterPath)
+                    .data(POSTER_BASE_URL+PosterSize.W342.size+posterPath)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.loading_img),
