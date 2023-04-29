@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -33,9 +34,11 @@ import com.tasdiqdewan.utils.TMDBScreen
 @Composable
 fun TheMovieDBNavHost() {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     Scaffold(
-        topBar = { TMDBTopBar() },
-        bottomBar = { TMDBBottomBar(navController) }
+        topBar = { TMDBTopBar(currentDestination) },
+        bottomBar = { TMDBBottomBar(navController, currentDestination) }
     ) { contentPadding ->
         NavHost(navController = navController, startDestination = TMDBScreen.Home.route, modifier = Modifier.padding(contentPadding)) {
             composable(TMDBScreen.Home.route) {
@@ -53,10 +56,17 @@ fun TheMovieDBNavHost() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TMDBTopBar(
+    currentDestination: NavDestination?,
     modifier: Modifier = Modifier
 ) {
     CenterAlignedTopAppBar(
-        title = { Text("TheMovieDatabase") },
+        title = {
+            when(currentDestination?.route) {
+                TMDBScreen.Home.route -> Text("TheMovieDatabase")
+                TMDBScreen.Search.route -> Text(stringResource(TMDBScreen.Search.name))
+                else -> Text("TheMovieDatabase")
+            }
+        },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
         modifier = modifier
     )
@@ -65,11 +75,10 @@ fun TMDBTopBar(
 @Composable
 fun TMDBBottomBar(
     navController: NavHostController,
+    currentDestination: NavDestination?,
     modifier: Modifier = Modifier
 ) {
     val screens = listOf(TMDBScreen.Home, TMDBScreen.Search)
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
    NavigationBar(
        modifier = modifier
    ) {
