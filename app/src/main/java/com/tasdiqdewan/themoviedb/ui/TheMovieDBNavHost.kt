@@ -34,8 +34,7 @@ import com.tasdiqdewan.themoviedb.ui.details.DetailsScreen
 import com.tasdiqdewan.themoviedb.ui.details.DetailsViewModel
 import com.tasdiqdewan.themoviedb.ui.home.HomeScreen
 import com.tasdiqdewan.themoviedb.ui.home.HomeViewModel
-import com.tasdiqdewan.utils.TMDBScreen
-import kotlinx.coroutines.flow.collect
+import com.tasdiqdewan.utils.TMDBRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,22 +51,22 @@ fun TheMovieDBNavHost(
     ) { contentPadding ->
         val homeState by homeViewModel.state.collectAsState()
         val detailsState by detailsViewModel.state.collectAsState()
-        NavHost(navController = navController, startDestination = TMDBScreen.Home.route, modifier = Modifier.padding(contentPadding)) {
-            composable(TMDBScreen.Home.route) {
+        NavHost(navController = navController, startDestination = TMDBRoutes.Home.route, modifier = Modifier.padding(contentPadding)) {
+            composable(TMDBRoutes.Home.route) {
                 HomeScreen(
                     state = homeState,
-                    navigateToDetails = { id: Int -> navController.navigate(TMDBScreen.Details.route + "/${id}") }
+                    navigateToDetails = { id: Int -> navController.navigate(TMDBRoutes.Details.route + "/${id}") }
                 )
             }
             composable(
-                "${TMDBScreen.Details.route}/{movieId}",
+                "${TMDBRoutes.Details.route}/{movieId}",
                 arguments = listOf(navArgument("movieId") { type = NavType.IntType })
             ) { navBackStackEntry ->
                 navBackStackEntry.arguments?.getInt("movieId")
                     ?.let { detailsViewModel.getMovieDetails(it) }
                 DetailsScreen(detailsState.data)
             }
-            composable(TMDBScreen.Search.route) {
+            composable(TMDBRoutes.Search.route) {
                 Text(text = "Search")
             }
         }
@@ -83,8 +82,8 @@ fun TMDBTopBar(
     CenterAlignedTopAppBar(
         title = {
             when(currentDestination?.route) {
-                TMDBScreen.Home.route -> Text("TheMovieDatabase")
-                TMDBScreen.Search.route -> Text(stringResource(TMDBScreen.Search.name))
+                TMDBRoutes.Home.route -> Text("TheMovieDatabase")
+                TMDBRoutes.Search.route -> Text(stringResource(TMDBRoutes.Search.name))
                 else -> Text("TheMovieDatabase")
             }
         },
@@ -102,7 +101,7 @@ fun TMDBBottomBar(
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier
 ) {
-    val screens = listOf(TMDBScreen.Home, TMDBScreen.Search)
+    val screens = listOf(TMDBRoutes.Home, TMDBRoutes.Search)
    NavigationBar(
        modifier = modifier,
        containerColor = MaterialTheme.colorScheme.primary,
@@ -141,10 +140,10 @@ fun TMDBBottomBar(
 }
 
 @Composable
-fun TMBDNavigationIcon(screen: TMDBScreen) {
+fun TMBDNavigationIcon(screen: TMDBRoutes) {
     when(screen.route) {
-        TMDBScreen.Home.route -> Icon(Icons.Filled.Home, contentDescription = null)
-        TMDBScreen.Search.route -> Icon(Icons.Filled.Search, contentDescription = null)
+        TMDBRoutes.Home.route -> Icon(Icons.Filled.Home, contentDescription = null)
+        TMDBRoutes.Search.route -> Icon(Icons.Filled.Search, contentDescription = null)
         else -> Icon(Icons.Filled.Home, contentDescription = null)
     }
 }
