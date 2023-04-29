@@ -28,8 +28,7 @@ import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
 @Composable
 fun HomeScreen(
     state: HomeScreenState,
-    navigateToDetails: () -> Unit,
-    updateSelectedId: (Int) -> Unit
+    navigateToDetails: (Int) -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -40,7 +39,6 @@ fun HomeScreen(
                 PopularMoviesGrid(
                     movieList = (state.popularMovies as HomePopularMovies.Success).popularMoviesList,
                     navigateToDetails = navigateToDetails,
-                    updateSelectedId = updateSelectedId
                 )
             }
             is HomePopularMovies.Error -> ErrorScreen()
@@ -51,32 +49,34 @@ fun HomeScreen(
 @Composable
 fun PopularMoviesGrid(
     movieList: List<MoviesListResponse.Result>,
-    navigateToDetails: () -> Unit,
-    updateSelectedId: (Int) -> Unit,
+    navigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = stringResource(R.string.popular_this_week), style = MaterialTheme.typography.displaySmall)
+        Text(
+            text = stringResource(R.string.popular_today),
+            style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             contentPadding = PaddingValues(8.dp),
             modifier = modifier.fillMaxWidth()
         ) {
-            items(items = movieList, key = { movie -> movie.id }) {
+            items(items = movieList, key = { movie -> movie.id ?: 0 }) {
                     movie -> MovieResult(
-                id = movie.id,
-                title = movie.title,
-                releaseDate = movie.releaseDate,
-                posterPath = movie.posterPath,
-                backdropPath = movie.backdropPath,
-                voteAverage = movie.voteAverage,
+                id = movie.id ?: 0,
+                title = movie.title ?: "",
+                releaseDate = movie.releaseDate ?: "",
+                posterPath = movie.posterPath ?: "",
+                backdropPath = movie.backdropPath ?: "",
+                voteAverage = movie.voteAverage ?: 0.0,
                 modifier = Modifier
                     .clickable(
                         enabled = true,
                         onClickLabel = stringResource(id = R.string.movie_click_label),
                     ) {
-                        updateSelectedId(movie.id)
-                        navigateToDetails()
+                        navigateToDetails(movie.id ?: 324857)
                     }
             )
             }
@@ -88,7 +88,7 @@ fun PopularMoviesGrid(
 @Composable
 fun HomeScreenPreview() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState(), {}, {})
+        HomeScreen(state = HomeScreenState(), {})
     }
 }
 
@@ -96,6 +96,6 @@ fun HomeScreenPreview() {
 @Composable
 fun HomeScreenPreviewDark() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState(), {}, {})
+        HomeScreen(state = HomeScreenState(), {})
     }
 }

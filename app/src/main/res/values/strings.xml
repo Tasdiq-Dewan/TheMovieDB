@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">TheMovieDB</string>
-    <string name="popular_this_week">Popular this week!</string>
+    <string name="popular_today">Popular today!</string>
     <string name="movie_click_label">Tap to see full details</string>
 </resources>

@@ -7,8 +7,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -18,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -29,13 +30,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.tasdiqdewan.themoviedb.ui.details.DetailsScreen
+import com.tasdiqdewan.themoviedb.ui.details.DetailsViewModel
 import com.tasdiqdewan.themoviedb.ui.home.HomeScreen
 import com.tasdiqdewan.themoviedb.ui.home.HomeViewModel
 import com.tasdiqdewan.utils.TMDBScreen
+import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TheMovieDBNavHost() {
+fun TheMovieDBNavHost(
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    detailsViewModel: DetailsViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -43,21 +50,22 @@ fun TheMovieDBNavHost() {
         topBar = { TMDBTopBar(currentDestination) },
         bottomBar = { TMDBBottomBar(navController, currentDestination) }
     ) { contentPadding ->
+        val homeState by homeViewModel.state.collectAsState()
+        val detailsState by detailsViewModel.state.collectAsState()
         NavHost(navController = navController, startDestination = TMDBScreen.Home.route, modifier = Modifier.padding(contentPadding)) {
             composable(TMDBScreen.Home.route) {
-                val homeViewModel: HomeViewModel = hiltViewModel()
-                val homeState by homeViewModel.state.collectAsState()
                 HomeScreen(
                     state = homeState,
-                    navigateToDetails = { navController.navigate(TMDBScreen.Details.route + "/${homeState.selectedId}") },
-                    updateSelectedId = { selectedId: Int -> homeViewModel.updateSelectedId(selectedId) }
+                    navigateToDetails = { id: Int -> navController.navigate(TMDBScreen.Details.route + "/${id}") }
                 )
             }
             composable(
                 "${TMDBScreen.Details.route}/{movieId}",
                 arguments = listOf(navArgument("movieId") { type = NavType.IntType })
-            ) {
-
+            ) { navBackStackEntry ->
+                navBackStackEntry.arguments?.getInt("movieId")
+                    ?.let { detailsViewModel.getMovieDetails(it) }
+                DetailsScreen(detailsState.data)
             }
             composable(TMDBScreen.Search.route) {
                 Text(text = "Search")
@@ -80,7 +88,10 @@ fun TMDBTopBar(
                 else -> Text("TheMovieDatabase")
             }
         },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
+        ),
         modifier = modifier
     )
 }
@@ -93,13 +104,20 @@ fun TMDBBottomBar(
 ) {
     val screens = listOf(TMDBScreen.Home, TMDBScreen.Search)
    NavigationBar(
-       modifier = modifier
+       modifier = modifier,
+       containerColor = MaterialTheme.colorScheme.primary,
+       contentColor = MaterialTheme.colorScheme.onPrimary
    ) {
         screens.forEachIndexed { index, screen ->
             NavigationBarItem(
                 icon = {
                   TMBDNavigationIcon(screen)
                 },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 label = { Text(stringResource(screen.name)) },
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 onClick = {
@@ -108,13 +126,13 @@ fun TMDBBottomBar(
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items
                         popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                            saveState = false
                         }
                         // Avoid multiple copies of the same destination when
                         // reselecting the same item
                         launchSingleTop = true
                         // Restore state when reselecting a previously selected item
-                        restoreState = true
+                        restoreState = false
                     }
                 }
             )

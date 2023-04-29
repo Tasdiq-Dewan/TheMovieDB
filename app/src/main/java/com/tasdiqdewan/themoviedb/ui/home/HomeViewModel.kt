@@ -42,10 +42,4 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
-    fun updateSelectedId(id: Int) {
-        _state.update { currentState ->
-            currentState.copy(selectedId = id)
-        }
-    }
 }
