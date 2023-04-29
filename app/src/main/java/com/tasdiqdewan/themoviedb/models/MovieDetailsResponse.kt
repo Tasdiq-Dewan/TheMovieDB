@@ -37,25 +37,25 @@ data class MovieDetailsResponse(
     )
 
     data class Genre(
-        val id: Int,
-        val name: String
+        val id: Int?,
+        val name: String?
     )
 
     data class ProductionCompany(
-        val id: Int,
-        @Json(name = "logo_path") val logoPath: String,
-        val name: String,
-        @Json(name = "origin_country") val originCountry: String
+        val id: Int?,
+        @Json(name = "logo_path") val logoPath: String?,
+        val name: String?,
+        @Json(name = "origin_country") val originCountry: String?
     )
 
     data class Country(
-        @Json(name = "iso_3166_1") val iso31661: String,
-        val name: String
+        @Json(name = "iso_3166_1") val iso31661: String?,
+        val name: String?
     )
 
     data class Language(
-        @Json(name = "english_name") val englishName: String,
-        @Json(name =  "iso_639_1") val iso6391: String,
-        val name: String
+        @Json(name = "english_name") val englishName: String?,
+        @Json(name =  "iso_639_1") val iso6391: String?,
+        val name: String?
     )
 }
