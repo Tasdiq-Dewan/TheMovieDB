@@ -67,9 +67,9 @@ fun MovieResult(
             Box(contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(
                     progress = voteAverage.toFloat() / 10,
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = MaterialTheme.colorScheme.tertiary,
                 )
-                Text(text = voteAverage.toString())
+                Text(text = (voteAverage*10).toInt().toString())
             }
             Text(
                 text = title,

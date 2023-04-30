@@ -6,9 +6,11 @@ object Constants {
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/"
     const val SIMPLE_DATE_FORMAT = "yyyy-MM-dd"
+    const val SIMPLE_DATE_FORMAT_UK = "dd/MM/yyyy"
     const val SIMPLE_DATE_FORMAT_US = "yyyy-dd-MM"
     const val DAY_SHORT_MONTH_YEAR = "dd MMM yyyy"
     const val DAY_FULL_MONTH_YEAR = "dd MMMM yyyy"
+    const val YEAR = "yyyy"
 }
 
 enum class BackdropSize(val size: String) {
