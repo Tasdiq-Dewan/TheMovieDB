@@ -2,12 +2,15 @@ package com.tasdiqdewan.compose_library.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -52,25 +55,31 @@ fun MovieResult(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
                 .fillMaxWidth()
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(POSTER_BASE_URL+PosterSize.W342.size+posterPath)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.loading_img),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
+            Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp)),
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Box(contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(
-                    progress = voteAverage.toFloat() / 10,
-                    color = MaterialTheme.colorScheme.tertiary,
+                    .height(160.dp)
+                    .width(112.dp)
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(POSTER_BASE_URL+PosterSize.W342.size+posterPath)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(id = R.drawable.loading_img),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(12.dp))
+                        .align(Alignment.Center)
                 )
-                Text(text = (voteAverage*10).toInt().toString())
+                VoteAverage(
+                    voteAverage = voteAverage.toFloat(),
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                )
             }
+            Spacer(modifier = Modifier.height(4.dp))
+
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,

@@ -74,7 +74,7 @@ fun MovieDetails(
             posterPath?.let {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(Constants.POSTER_BASE_URL + PosterSize.W780.size+posterPath)
+                        .data(Constants.POSTER_BASE_URL + PosterSize.W500.size+posterPath)
                         .crossfade(true)
                         .build(),
                     placeholder = painterResource(id = R.drawable.loading_img),
