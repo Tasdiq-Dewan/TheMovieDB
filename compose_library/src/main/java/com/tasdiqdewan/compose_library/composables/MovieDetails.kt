@@ -1,5 +1,7 @@
 package com.tasdiqdewan.compose_library.composables
 
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,7 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -28,14 +33,17 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.tasdiqdewan.compose_library.R
 import com.tasdiqdewan.utils.Constants
+import com.tasdiqdewan.utils.Constants.SIMPLE_DATE_FORMAT_UK
 import com.tasdiqdewan.utils.Constants.YEAR
 import com.tasdiqdewan.utils.PosterSize
 import com.tasdiqdewan.utils.convertToDateFormat
+import java.util.Locale
 
 @Composable
 fun MovieDetails(
@@ -49,6 +57,11 @@ fun MovieDetails(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .padding(horizontal = 8.dp)
+            .verticalScroll(
+                enabled = true,
+                state = rememberScrollState()
+            )
     ) {
         Text(
             text = buildAnnotatedString {
@@ -64,46 +77,42 @@ fun MovieDetails(
                 }
             }
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 16.dp)
-        ) {
-            val localDensity = LocalDensity.current
-            var imageHeight by remember { mutableStateOf(0.dp) }
-            posterPath?.let {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(Constants.POSTER_BASE_URL + PosterSize.W500.size+posterPath)
-                        .crossfade(true)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.loading_img),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .onGloballyPositioned {
-                            imageHeight = with(localDensity) { it.size.height.toDp() }
-                        },
-                )
-            }
-            Card(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .fillMaxWidth()
-                    .height(imageHeight)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = MaterialTheme.typography.bodyMedium.toSpanStyle()
                 ) {
-                    CircularProgressIndicator(
-                        progress = voteAverage.toFloat() / 10,
-                        color = MaterialTheme.colorScheme.tertiary,
-                    )
-                    Text(text = (voteAverage*10).toInt().toString())
+                    append("${releaseDate.convertToDateFormat(SIMPLE_DATE_FORMAT_UK)} (${Locale.getDefault().country})")
                 }
             }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        posterPath?.let {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(Constants.POSTER_BASE_URL + PosterSize.W780.size+posterPath)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(id = R.drawable.loading_img),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(12.dp))
+            )
         }
+    }
+}
+
+@Preview
+@Composable
+fun MovieDetailsPreview() {
+    MaterialTheme{
+        MovieDetails(
+            id = 1,
+            title = "Spider-Man: Into the Spider-Verse",
+            releaseDate = "2018-12-14",
+            posterPath = "/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
+            voteAverage = 8.407
+        )
     }
 }

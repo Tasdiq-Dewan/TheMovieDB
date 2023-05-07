@@ -3,7 +3,7 @@ package com.tasdiqdewan.themoviedb
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.tasdiqdewan.themoviedb.data.MoviesRepository
+import com.tasdiqdewan.themoviedb.data.repository.MoviesRepository
 import com.tasdiqdewan.themoviedb.ui.TheMovieDBNavHost
 import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
 import dagger.hilt.android.AndroidEntryPoint
