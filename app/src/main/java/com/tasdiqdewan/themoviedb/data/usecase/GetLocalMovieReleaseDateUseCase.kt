@@ -12,14 +12,14 @@ import java.io.IOException
 import java.util.Locale
 import javax.inject.Inject
 
-interface GetLocalMovieReleaseDateUsecase {
+interface GetLocalMovieReleaseDateUseCase {
     suspend fun execute(id: Int): MovieReleaseDatesResponse.ReleaseDate?
 }
 
 @ActivityRetainedScoped
-class GetLocalMovieReleaseDateUsecaseImpl @Inject constructor(
+class GetLocalMovieReleaseDateUseCaseImpl @Inject constructor(
     private val repository: MoviesRepository
-) : GetLocalMovieReleaseDateUsecase {
+) : GetLocalMovieReleaseDateUseCase {
     override suspend fun execute(id: Int): MovieReleaseDatesResponse.ReleaseDate? {
         val local = Locale.getDefault().country
         val releaseDate = try {
@@ -36,13 +36,4 @@ class GetLocalMovieReleaseDateUsecaseImpl @Inject constructor(
 
         return releaseDate
     }
-}
-
-@Module
-@InstallIn(ActivityRetainedComponent::class)
-abstract class LocalReleaseDateModule {
-    @Binds
-    abstract fun bindsGetMovieLocalReleaseDate(
-        getLocalMovieReleaseDateUsecaseImpl: GetLocalMovieReleaseDateUsecaseImpl
-    ): GetLocalMovieReleaseDateUsecase
 }
