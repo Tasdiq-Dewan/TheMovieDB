@@ -29,7 +29,7 @@ fun SpinningProgressIndicator(
     dynamicItemCount: Int = staticItemCount / 2,
     durationMillis: Int = 1000,
     spinnerShape: SpinnerShape = SpinnerShape.RoundedRect,
-    spinnerSize: Dp = 16.0.dp,
+    spinnerSize: Dp = 48.dp,
     staticItemColor: Color = Color(0xff757575),
     dynamicItemColor: Color = Color(0xffEEEEEE),
 ) {

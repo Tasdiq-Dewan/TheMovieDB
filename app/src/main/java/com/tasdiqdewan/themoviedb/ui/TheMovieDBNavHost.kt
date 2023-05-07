@@ -53,6 +53,7 @@ fun TheMovieDBNavHost(
         val detailsState by detailsViewModel.state.collectAsState()
         NavHost(navController = navController, startDestination = TMDBRoutes.Home.route, modifier = Modifier.padding(contentPadding)) {
             composable(TMDBRoutes.Home.route) {
+                homeViewModel.getPopularMovies()
                 HomeScreen(
                     state = homeState,
                     navigateToDetails = { id: Int -> navController.navigate(TMDBRoutes.Details.route + "/${id}") }

@@ -22,6 +22,9 @@ fun DetailsScreen(
             releaseDate = state.movieDetails.releaseDate,
             posterPath = state.movieDetails.posterPath,
             voteAverage = state.movieDetails.voteAverage,
+            certification = state.releaseDate.certification,
+            tagline = state.movieDetails.tagline,
+            overview = state.movieDetails.overview,
             modifier = Modifier
                 .fillMaxSize()
         )

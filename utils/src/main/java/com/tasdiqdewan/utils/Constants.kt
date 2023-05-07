@@ -7,10 +7,10 @@ object Constants {
     const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/"
     const val SIMPLE_DATE_FORMAT_ISO = "yyyy-MM-dd"
     const val SIMPLE_DATE_FORMAT_UK = "dd/MM/yyyy"
-    const val SIMPLE_DATE_FORMAT_US = "yyyy-dd-MM"
+    const val SIMPLE_DATE_FORMAT_US = "MM/dd/yyyy"
     const val DAY_SHORT_MONTH_YEAR = "dd MMM yyyy"
     const val DAY_FULL_MONTH_YEAR = "dd MMMM yyyy"
-    const val YEAR = "yyyy"
+    const val DATE_FORMAT_YEAR = "yyyy"
 }
 
 enum class BackdropSize(val size: String) {

@@ -3,6 +3,7 @@ package com.tasdiqdewan.themoviedb
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Surface
 import com.tasdiqdewan.themoviedb.data.repository.MoviesRepository
 import com.tasdiqdewan.themoviedb.ui.TheMovieDBNavHost
 import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
@@ -17,7 +18,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TheMovieDBTheme {
-                TheMovieDBNavHost()
+                Surface {
+                    TheMovieDBNavHost()
+                }
             }
         }
     }

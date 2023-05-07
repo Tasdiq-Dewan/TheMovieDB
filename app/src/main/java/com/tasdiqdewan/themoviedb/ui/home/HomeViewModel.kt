@@ -23,7 +23,7 @@ class HomeViewModel @Inject constructor(
         getPopularMovies()
     }
 
-    private fun getPopularMovies() {
+    fun getPopularMovies() {
         viewModelScope.launch {
             val popularMovies = try {
                 HomePopularMovies.Success(
