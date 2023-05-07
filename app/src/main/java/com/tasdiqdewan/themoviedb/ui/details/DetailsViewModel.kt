@@ -3,7 +3,9 @@ package com.tasdiqdewan.themoviedb.ui.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tasdiqdewan.themoviedb.data.MoviesRepository
+import com.tasdiqdewan.themoviedb.data.repository.MoviesRepository
+import com.tasdiqdewan.themoviedb.data.usecase.GetLocalMovieReleaseDateUsecase
+import com.tasdiqdewan.themoviedb.data.usecase.GetMovieDetailsUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val getMovieDetailsUsecase: GetMovieDetailsUsecase
 ) : ViewModel() {
     private var _state = MutableStateFlow(DetailsScreenState(DetailsScreenData.Loading))
     val state: StateFlow<DetailsScreenState> = _state.asStateFlow()
@@ -34,9 +36,7 @@ class DetailsViewModel @Inject constructor(
     fun getMovieDetails(id: Int) {
         viewModelScope.launch {
             val movieDetails = try {
-                moviesRepository.getMovieDetails(id).body()?.let {
-                    DetailsScreenData.Success(it)
-                }
+                getMovieDetailsUsecase.execute(id)
             }
             catch(e: IOException) {
                 DetailsScreenData.Error
