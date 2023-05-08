@@ -25,6 +25,7 @@ fun DetailsScreen(
             certification = state.releaseDate.certification,
             tagline = state.movieDetails.tagline,
             overview = state.movieDetails.overview,
+            runtime = state.movieDetails.runtime,
             modifier = Modifier
                 .fillMaxSize()
         )

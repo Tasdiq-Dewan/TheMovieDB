@@ -1,11 +1,7 @@
 package com.tasdiqdewan.themoviedb.data.usecase
 
 import com.tasdiqdewan.themoviedb.data.repository.MoviesRepository
-import com.tasdiqdewan.themoviedb.models.MovieReleaseDatesResponse
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import com.tasdiqdewan.utils.dto.MovieReleaseDatesResponse
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import retrofit2.HttpException
 import java.io.IOException

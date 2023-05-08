@@ -1,6 +1,6 @@
 package com.tasdiqdewan.themoviedb.ui.home
 
-import com.tasdiqdewan.themoviedb.models.MoviesListResponse
+import com.tasdiqdewan.utils.dto.MoviesListResponse
 
 data class HomeScreenState(
     var page: Int = 1,

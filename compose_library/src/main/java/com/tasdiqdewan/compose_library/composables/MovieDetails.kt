@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -35,9 +34,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.tasdiqdewan.compose_library.R
 import com.tasdiqdewan.utils.Constants
+import com.tasdiqdewan.utils.Constants.DATE_FORMAT_YEAR
 import com.tasdiqdewan.utils.Constants.SIMPLE_DATE_FORMAT_UK
 import com.tasdiqdewan.utils.Constants.SIMPLE_DATE_FORMAT_US
-import com.tasdiqdewan.utils.Constants.DATE_FORMAT_YEAR
 import com.tasdiqdewan.utils.PosterSize
 import com.tasdiqdewan.utils.convertToDateFormat
 import java.util.Locale
@@ -52,6 +51,7 @@ fun MovieDetails(
     certification: String,
     tagline: String?,
     overview: String?,
+    runtime: Int?,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -66,7 +66,8 @@ fun MovieDetails(
         Text(
             text = buildAnnotatedString {
                 withStyle(
-                    style = MaterialTheme.typography.titleLarge.toSpanStyle()
+                    style = MaterialTheme.typography.titleLarge
+                        .copy(fontWeight = FontWeight.Bold).toSpanStyle()
                 ) {
                     append(title)
                 }
@@ -75,7 +76,9 @@ fun MovieDetails(
                 ) {
                     append(" (${releaseDate.convertToDateFormat(DATE_FORMAT_YEAR)})")
                 }
-            }
+            },
+            modifier = Modifier
+                .padding(8.dp)
         )
         Row {
             Box(
@@ -138,12 +141,13 @@ fun MovieDetails(
                 ) {
                     VoteAverage(
                         voteAverage = voteAverage.toFloat(),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier
                     )
                     Text(
                         text = "User Score",
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier
+                            .padding(start = 8.dp)
                     )
                 }
                 Text(
@@ -175,7 +179,8 @@ fun MovieDetailsPreview() {
             voteAverage = 8.407,
             certification = "PG",
             tagline = "More than one wears the mask.",
-            overview = "Miles Morales is juggling his life between being a high school student and being a spider-man. When Wilson \\\"Kingpin\\\" Fisk uses a super collider, others from across the Spider-Verse are transported to this dimension."
+            overview = "Miles Morales is juggling his life between being a high school student and being a spider-man. When Wilson \\\"Kingpin\\\" Fisk uses a super collider, others from across the Spider-Verse are transported to this dimension.",
+            runtime = 117
         )
     }
 }

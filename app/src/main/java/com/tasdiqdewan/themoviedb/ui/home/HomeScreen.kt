@@ -22,7 +22,7 @@ import com.tasdiqdewan.compose_library.composables.ErrorScreen
 import com.tasdiqdewan.compose_library.composables.LoadingScreen
 import com.tasdiqdewan.compose_library.composables.MovieResult
 import com.tasdiqdewan.themoviedb.R
-import com.tasdiqdewan.themoviedb.models.MoviesListResponse
+import com.tasdiqdewan.utils.dto.MoviesListResponse
 import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
 
 @Composable

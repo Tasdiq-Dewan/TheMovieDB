@@ -1,4 +1,4 @@
-package com.tasdiqdewan.themoviedb.models
+package com.tasdiqdewan.utils.dto
 
 import com.squareup.moshi.Json
 

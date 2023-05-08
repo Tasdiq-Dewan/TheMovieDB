@@ -19,10 +19,6 @@ class HomeViewModel @Inject constructor(
     private var _state = MutableStateFlow(HomeScreenState())
     val state: StateFlow<HomeScreenState> = _state.asStateFlow()
 
-    init {
-        getPopularMovies()
-    }
-
     fun getPopularMovies() {
         viewModelScope.launch {
             val popularMovies = try {
