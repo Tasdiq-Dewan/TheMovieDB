@@ -43,7 +43,6 @@ import java.util.Locale
 
 @Composable
 fun MovieDetails(
-    id: Int,
     title: String,
     releaseDate: String,
     posterPath: String?,
@@ -172,7 +171,6 @@ fun MovieDetails(
 fun MovieDetailsPreview() {
     MaterialTheme{
         MovieDetails(
-            id = 1,
             title = "Spider-Man: Into the Spider-Verse",
             releaseDate = "2018-12-14",
             posterPath = "/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",

@@ -17,7 +17,6 @@ fun DetailsScreen(
         is DetailsScreenData.Loading -> LoadingScreen()
         is DetailsScreenData.Error -> ErrorScreen()
         is DetailsScreenData.Success -> MovieDetails(
-            id = state.movieDetails.id,
             title = state.movieDetails.title,
             releaseDate = state.movieDetails.releaseDate,
             posterPath = state.movieDetails.posterPath,
@@ -26,7 +25,7 @@ fun DetailsScreen(
             tagline = state.movieDetails.tagline,
             overview = state.movieDetails.overview,
             runtime = state.movieDetails.runtime,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
         )
     }
