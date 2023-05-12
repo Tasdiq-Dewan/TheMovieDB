@@ -49,7 +49,7 @@ fun MovieDetails(
     releaseDate: String,
     posterPath: String?,
     voteAverage: Double,
-    certification: String,
+    certification: String? = null,
     tagline: String?,
     overview: String?,
     runtime: Int?,

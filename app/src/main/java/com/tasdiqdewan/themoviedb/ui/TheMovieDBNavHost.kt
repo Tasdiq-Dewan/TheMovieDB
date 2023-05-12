@@ -63,8 +63,9 @@ fun TheMovieDBNavHost(
                 "${TMDBRoutes.Details.route}/{movieId}",
                 arguments = listOf(navArgument("movieId") { type = NavType.IntType })
             ) { navBackStackEntry ->
-                navBackStackEntry.arguments?.getInt("movieId")
-                    ?.let { detailsViewModel.getMovieDetails(it) }
+                navBackStackEntry.arguments?.getInt("movieId")?.let {
+                    detailsViewModel.getMovieDetails(it)
+                }
                 DetailsScreen(detailsState.data)
             }
             composable(TMDBRoutes.Search.route) {

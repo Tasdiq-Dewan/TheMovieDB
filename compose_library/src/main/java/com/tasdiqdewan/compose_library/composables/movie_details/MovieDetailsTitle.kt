@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -25,11 +26,13 @@ import java.util.Locale
 @Composable
 fun MovieDetailsTitle(
     title: String,
-    certification: String,
+    certification: String? = null,
     releaseDate: String,
     modifier: Modifier = Modifier
 ) {
-    Column() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = buildAnnotatedString {
                 withStyle(
@@ -51,16 +54,18 @@ fun MovieDetailsTitle(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Box(
-                modifier = Modifier
-                    .border(1.dp, MaterialTheme.colorScheme.onSurface)
-            ) {
-                Text(
-                    text = certification,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
+            certification?.let {
+                Box(
                     modifier = Modifier
-                        .padding(2.dp)
-                )
+                        .border(1.dp, MaterialTheme.colorScheme.onSurface)
+                ) {
+                    Text(
+                        text = certification,
+                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
+                        modifier = Modifier
+                            .padding(2.dp)
+                    )
+                }
             }
             Spacer(modifier = Modifier.width(8.dp))
             Text(
