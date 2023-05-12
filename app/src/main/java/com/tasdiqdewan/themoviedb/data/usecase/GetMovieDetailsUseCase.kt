@@ -4,6 +4,7 @@ import android.util.Log
 import com.tasdiqdewan.themoviedb.data.repository.MoviesRepository
 import com.tasdiqdewan.themoviedb.ui.details.DetailsScreenData
 import com.tasdiqdewan.utils.dto.toDomain
+import com.tasdiqdewan.utils.exceptions.MovieDetailsNullException
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import retrofit2.HttpException
 import java.io.IOException
@@ -43,7 +44,7 @@ class GetMovieDetailsUseCaseImpl @Inject constructor(
         }
 
         return DetailsScreenData.Success(
-            movieDetails = movieDetails ?: throw Exception(),
+            movieDetails = movieDetails ?: throw MovieDetailsNullException("repository.getMovieDetails(id) has returned null"),
             releaseDate = releaseDate?.toDomain()
         )
     }
