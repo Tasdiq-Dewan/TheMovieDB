@@ -1,4 +1,4 @@
-package com.tasdiqdewan.compose_library.composables
+package com.tasdiqdewan.compose_library.composables.movie_details
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -33,12 +33,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.tasdiqdewan.compose_library.R
+import com.tasdiqdewan.compose_library.composables.VoteAverage
 import com.tasdiqdewan.utils.Constants
 import com.tasdiqdewan.utils.Constants.DATE_FORMAT_YEAR
 import com.tasdiqdewan.utils.Constants.SIMPLE_DATE_FORMAT_UK
 import com.tasdiqdewan.utils.Constants.SIMPLE_DATE_FORMAT_US
 import com.tasdiqdewan.utils.PosterSize
 import com.tasdiqdewan.utils.convertToDateFormat
+import com.tasdiqdewan.utils.domain.Genre
 import java.util.Locale
 
 @Composable
@@ -51,6 +53,7 @@ fun MovieDetails(
     tagline: String?,
     overview: String?,
     runtime: Int?,
+    genres: List<Genre> = listOf(),
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -62,49 +65,11 @@ fun MovieDetails(
                 state = rememberScrollState()
             )
     ) {
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = MaterialTheme.typography.titleLarge
-                        .copy(fontWeight = FontWeight.Bold).toSpanStyle()
-                ) {
-                    append(title)
-                }
-                withStyle(
-                    style = MaterialTheme.typography.labelLarge.toSpanStyle()
-                ) {
-                    append(" (${releaseDate.convertToDateFormat(DATE_FORMAT_YEAR)})")
-                }
-            },
-            modifier = Modifier
-                .padding(8.dp)
+        MovieDetailsTitle(
+            title = title,
+            certification = certification,
+            releaseDate = releaseDate
         )
-        Row {
-            Box(
-                modifier = Modifier
-                    .border(1.dp, MaterialTheme.colorScheme.onSurface)
-            ) {
-                Text(
-                    text = certification,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
-                    modifier = Modifier
-                        .padding(2.dp)
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = MaterialTheme.typography.bodyMedium.toSpanStyle()
-                    ) {
-                        val local = Locale.getDefault().country
-                        append("${releaseDate.convertToDateFormat(if(local == "US") SIMPLE_DATE_FORMAT_US else SIMPLE_DATE_FORMAT_UK)} ($local)")
-                    }
-                },
-                modifier = Modifier
-                    .padding(2.dp)
-            )
-        }
         Spacer(modifier = Modifier.height(16.dp))
         posterPath?.let {
             AsyncImage(
@@ -120,51 +85,16 @@ fun MovieDetails(
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
-        Card(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .wrapContentHeight()
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(24.dp)
-                        .wrapContentWidth()
-                ) {
-                    VoteAverage(
-                        voteAverage = voteAverage.toFloat(),
-                        modifier = Modifier
-                    )
-                    Text(
-                        text = "User Score",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                    )
-                }
-                Text(
-                    text = tagline ?: "",
-                    style = MaterialTheme.typography.labelMedium.copy(
-                        fontStyle = FontStyle.Italic
-                    ),
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-                )
-                Text(
-                    text = overview ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-                )
-            }
-        }
+        MovieDetailsSummary(
+            voteAverage = voteAverage,
+            tagline = tagline,
+            overview = overview,
+            genres = genres,
+            runtime = runtime
+        )
     }
 }
+
 
 @Preview
 @Composable
@@ -178,7 +108,13 @@ fun MovieDetailsPreview() {
             certification = "PG",
             tagline = "More than one wears the mask.",
             overview = "Miles Morales is juggling his life between being a high school student and being a spider-man. When Wilson \\\"Kingpin\\\" Fisk uses a super collider, others from across the Spider-Verse are transported to this dimension.",
-            runtime = 117
+            runtime = 117,
+            genres = listOf(
+                Genre(id = 28, name = "Action"),
+                Genre(id = 12, name = "Adventure"),
+                Genre(id = 16, name = "Animation"),
+                Genre(id = 878, name = "Science Fiction")
+            )
         )
     }
 }

@@ -1,12 +1,11 @@
 package com.tasdiqdewan.themoviedb.ui.details
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.tasdiqdewan.compose_library.composables.ErrorScreen
 import com.tasdiqdewan.compose_library.composables.LoadingScreen
-import com.tasdiqdewan.compose_library.composables.MovieDetails
+import com.tasdiqdewan.compose_library.composables.movie_details.MovieDetails
 
 @Composable
 fun DetailsScreen(
@@ -25,6 +24,7 @@ fun DetailsScreen(
             tagline = state.movieDetails.tagline,
             overview = state.movieDetails.overview,
             runtime = state.movieDetails.runtime,
+            genres = state.movieDetails.genres,
             modifier = modifier
                 .fillMaxSize()
         )
