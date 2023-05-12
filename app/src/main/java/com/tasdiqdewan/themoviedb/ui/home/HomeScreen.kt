@@ -1,6 +1,7 @@
 package com.tasdiqdewan.themoviedb.ui.home
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +22,13 @@ import com.tasdiqdewan.compose_library.composables.ErrorScreen
 import com.tasdiqdewan.compose_library.composables.LoadingScreen
 import com.tasdiqdewan.compose_library.composables.MovieResult
 import com.tasdiqdewan.themoviedb.R
-import com.tasdiqdewan.themoviedb.models.MoviesListResponse
+import com.tasdiqdewan.utils.dto.MoviesListResponse
 import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
 
 @Composable
 fun HomeScreen(
     state: HomeScreenState,
-    navigateToDetails: () -> Unit
+    navigateToDetails: (Int) -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -35,7 +36,10 @@ fun HomeScreen(
         when(state.popularMovies) {
             is HomePopularMovies.Loading -> LoadingScreen()
             is HomePopularMovies.Success -> {
-                PopularMoviesGrid(movieList = (state.popularMovies as HomePopularMovies.Success).popularMoviesList)
+                PopularMoviesGrid(
+                    movieList = (state.popularMovies as HomePopularMovies.Success).popularMoviesList,
+                    navigateToDetails = navigateToDetails,
+                )
             }
             is HomePopularMovies.Error -> ErrorScreen()
         }
@@ -45,23 +49,35 @@ fun HomeScreen(
 @Composable
 fun PopularMoviesGrid(
     movieList: List<MoviesListResponse.Result>,
+    navigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = stringResource(R.string.popular_this_week), style = MaterialTheme.typography.displaySmall)
+        Text(
+            text = stringResource(R.string.popular_today),
+            style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             contentPadding = PaddingValues(8.dp),
             modifier = modifier.fillMaxWidth()
         ) {
-            items(items = movieList, key = { movie -> movie.id }) {
+            items(items = movieList, key = { movie -> movie.id ?: 0 }) {
                     movie -> MovieResult(
-                id = movie.id,
-                title = movie.title,
-                releaseDate = movie.releaseDate,
-                posterPath = movie.posterPath,
-                backdropPath = movie.backdropPath,
-                voteAverage = movie.voteAverage
+                id = movie.id ?: 0,
+                title = movie.title ?: "",
+                releaseDate = movie.releaseDate ?: "",
+                posterPath = movie.posterPath ?: "",
+                backdropPath = movie.backdropPath ?: "",
+                voteAverage = movie.voteAverage ?: 0.0,
+                modifier = Modifier
+                    .clickable(
+                        enabled = true,
+                        onClickLabel = stringResource(id = R.string.movie_click_label),
+                    ) {
+                        navigateToDetails(movie.id ?: 324857)
+                    }
             )
             }
         }
