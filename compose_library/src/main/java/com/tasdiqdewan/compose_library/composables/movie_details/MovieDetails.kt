@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.tasdiqdewan.compose_library.R
+import com.tasdiqdewan.compose_library.composables.AsyncImageWithIndicator
 import com.tasdiqdewan.compose_library.composables.VoteAverage
 import com.tasdiqdewan.utils.Constants
 import com.tasdiqdewan.utils.Constants.DATE_FORMAT_YEAR
@@ -72,16 +73,9 @@ fun MovieDetails(
         )
         Spacer(modifier = Modifier.height(16.dp))
         posterPath?.let {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(Constants.POSTER_BASE_URL + PosterSize.W780.size+posterPath)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.loading_img),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
+            AsyncImageWithIndicator(
+                posterPath = posterPath,
+                posterSize = PosterSize.W780.size,
             )
         }
         Spacer(modifier = Modifier.height(4.dp))

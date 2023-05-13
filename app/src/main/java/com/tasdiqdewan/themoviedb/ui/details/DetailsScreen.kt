@@ -1,6 +1,7 @@
 package com.tasdiqdewan.themoviedb.ui.details
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.tasdiqdewan.compose_library.composables.ErrorScreen
@@ -18,7 +19,7 @@ fun DetailsScreen(
         LoadingScreen()
     }
     when(state) {
-        is DetailsScreenData.Nothing -> { LoadingScreen() }
+        is DetailsScreenData.Nothing -> {  }
         is DetailsScreenData.Error -> {
             ErrorScreen()
             setLoading(false)

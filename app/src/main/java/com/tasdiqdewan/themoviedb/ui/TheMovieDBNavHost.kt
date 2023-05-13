@@ -67,7 +67,6 @@ fun TheMovieDBNavHost(
                 arguments = listOf(navArgument("movieId") { type = NavType.IntType })
             ) { navBackStackEntry ->
                 navBackStackEntry.arguments?.getInt("movieId")?.let {
-                    detailsViewModel.clearState()
                     detailsViewModel.setLoading(true)
                     detailsViewModel.getMovieDetails(it)
                 }

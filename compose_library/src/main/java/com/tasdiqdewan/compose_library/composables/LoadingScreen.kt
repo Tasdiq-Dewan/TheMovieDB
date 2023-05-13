@@ -9,22 +9,21 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoadingScreen(
+    color: Color = MaterialTheme.colors.secondary,
     modifier: Modifier = Modifier
         .fillMaxSize()
 ){
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
-//        SpinningProgressIndicator(
-//            modifier = Modifier.align(Alignment.Center)
-//        )
         CircularProgressIndicator(
-            color = MaterialTheme.colors.primary,
+            color = color,
             modifier = Modifier
                 .align(Alignment.Center)
                 .size(48.dp)

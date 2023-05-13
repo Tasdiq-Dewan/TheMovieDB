@@ -60,14 +60,9 @@ fun MovieResult(
                     .height(160.dp)
                     .width(112.dp)
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(POSTER_BASE_URL+PosterSize.W342.size+posterPath)
-                        .crossfade(true)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.loading_img),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
+                AsyncImageWithIndicator(
+                    posterPath = posterPath,
+                    posterSize = PosterSize.W342.size,
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
                         .align(Alignment.Center)
