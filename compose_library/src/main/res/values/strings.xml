@@ -5,4 +5,5 @@
     <string name="other_exception_dialog">An unexpected error occurred while trying to retrieve data. Please try again.</string>
     <string name="error_screen_title">An error occurred</string>
     <string name="error_dismiss">Dismiss</string>
+    <string name="retry">Retry</string>
 </resources>

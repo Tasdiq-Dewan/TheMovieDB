@@ -14,6 +14,7 @@ fun DetailsScreen(
     state: DetailsScreenData,
     setLoading: (Boolean) -> Unit,
     onDismissError: () -> Unit,
+    retry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     if(isLoading) {
@@ -24,7 +25,8 @@ fun DetailsScreen(
         is DetailsScreenData.Error -> {
             ErrorScreen(
                 state.exception,
-                onDismiss = onDismissError
+                onDismiss = onDismissError,
+                retry = retry
             )
             setLoading(false)
         }

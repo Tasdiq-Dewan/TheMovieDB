@@ -73,13 +73,17 @@ fun TheMovieDBNavHost(
                 navBackStackEntry.arguments?.getInt("movieId")?.let {
                     detailsViewModel.setLoading(true)
                     detailsViewModel.getMovieDetails(it)
+                    DetailsScreen(
+                        state = detailsState.data,
+                        isLoading = detailsState.isLoading,
+                        setLoading = { loading: Boolean -> detailsViewModel.setLoading(loading) },
+                        onDismissError = { navController.popBackStack() },
+                        retry = {
+                            detailsViewModel.setLoading(true)
+                            detailsViewModel.getMovieDetails(it)
+                        }
+                    )
                 }
-                DetailsScreen(
-                    state = detailsState.data,
-                    isLoading = detailsState.isLoading,
-                    setLoading = { loading: Boolean -> detailsViewModel.setLoading(loading) },
-                    onDismissError = { navController.popBackStack() }
-                )
             }
             composable(TMDBRoutes.Search.route) {
                 Text(text = "Search")

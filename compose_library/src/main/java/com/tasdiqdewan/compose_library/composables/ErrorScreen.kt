@@ -19,6 +19,7 @@ import java.io.IOException
 fun ErrorScreen(
     exception: Exception,
     onDismiss: () -> Unit = {  },
+    retry: () -> Unit = {  },
     modifier: Modifier = Modifier
 ){
     var openDialog by remember { mutableStateOf(true) }
@@ -36,7 +37,19 @@ fun ErrorScreen(
                     )
             },
             text = { ErrorText(exception = exception) },
-            confirmButton = {  },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        openDialog = false
+                        retry()
+                    }
+                ) {
+                    Text(
+                        text = stringResource(R.string.retry),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            },
             dismissButton = {
                 TextButton(
                     onClick = {
