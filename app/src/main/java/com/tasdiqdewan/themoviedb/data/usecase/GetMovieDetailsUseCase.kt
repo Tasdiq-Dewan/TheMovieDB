@@ -44,7 +44,7 @@ class GetMovieDetailsUseCaseImpl @Inject constructor(
         }
 
         return DetailsScreenData.Success(
-            movieDetails = movieDetails ?: throw MovieDetailsNullException("repository.getMovieDetails(id) has returned null"),
+            movieDetails = movieDetails ?: throw MovieDetailsNullException(),
             releaseDate = releaseDate?.toDomain()
         )
     }
