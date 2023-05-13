@@ -22,8 +22,9 @@ import com.tasdiqdewan.compose_library.composables.ErrorScreen
 import com.tasdiqdewan.compose_library.composables.LoadingScreen
 import com.tasdiqdewan.compose_library.composables.MovieResult
 import com.tasdiqdewan.themoviedb.R
-import com.tasdiqdewan.utils.dto.MoviesListResponse
+import com.tasdiqdewan.utils.dto.MoviesListResponseDto
 import com.tasdiqdewan.themoviedb.ui.theme.TheMovieDBTheme
+import com.tasdiqdewan.utils.domain.MovieResult
 
 @Composable
 fun HomeScreen(
@@ -48,7 +49,7 @@ fun HomeScreen(
 
 @Composable
 fun PopularMoviesGrid(
-    movieList: List<MoviesListResponse.Result>,
+    movieList: List<MovieResult>,
     navigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -63,20 +64,20 @@ fun PopularMoviesGrid(
             contentPadding = PaddingValues(8.dp),
             modifier = modifier.fillMaxWidth()
         ) {
-            items(items = movieList, key = { movie -> movie.id ?: 0 }) {
+            items(items = movieList, key = { movie -> movie.id }) {
                     movie -> MovieResult(
-                id = movie.id ?: 0,
-                title = movie.title ?: "",
-                releaseDate = movie.releaseDate ?: "",
+                id = movie.id,
+                title = movie.title,
+                releaseDate = movie.releaseDate,
                 posterPath = movie.posterPath ?: "",
                 backdropPath = movie.backdropPath ?: "",
-                voteAverage = movie.voteAverage ?: 0.0,
+                voteAverage = movie.voteAverage,
                 modifier = Modifier
                     .clickable(
                         enabled = true,
                         onClickLabel = stringResource(id = R.string.movie_click_label),
                     ) {
-                        navigateToDetails(movie.id ?: 324857)
+                        navigateToDetails(movie.id)
                     }
             )
             }

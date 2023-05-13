@@ -1,6 +1,5 @@
-package com.tasdiqdewan.themoviedb
+package com.tasdiqdewan.themoviedb.ui.details
 
-import com.tasdiqdewan.themoviedb.data.repository.MoviesRepository
 import com.tasdiqdewan.utils.fake.FakeDataSource
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -14,7 +13,6 @@ import org.junit.Rule
 import org.junit.rules.TestRule
 import retrofit2.Response
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.tasdiqdewan.themoviedb.data.usecase.GetLocalMovieReleaseDateUseCase
 import com.tasdiqdewan.themoviedb.data.usecase.GetMovieDetailsUseCase
 import com.tasdiqdewan.themoviedb.ui.details.DetailsScreenData
 import com.tasdiqdewan.themoviedb.ui.details.DetailsViewModel
@@ -38,15 +36,6 @@ class DetailsViewModelTest {
         movieDetails = FakeDataSource.FAKE_SPIDER_VERSE_MOVIE_DETAILS,
         releaseDate = FakeDataSource.FAKE_SPIDER_VERSE_RELEASE_DATE
     )
-
-    private val repository = mockk<MoviesRepository>() {
-        coEvery { getMovieDetails(any()) } returns Response.success(FakeDataSource.FAKE_SPIDER_VERSE_MOVIE_DETAILS_DTO)
-        coEvery { getMovieReleaseDates(any()) } returns Response.success(FakeDataSource.FAKE_SPIDER_VERSE_RELEASE_DATE_DTO)
-    }
-
-    private val getLocalMovieReleaseDateUseCase = mockk<GetLocalMovieReleaseDateUseCase>() {
-        coEvery { execute(any()) } returns FakeDataSource.FAKE_SPIDER_VERSE_RELEASE_DATE_DTO.results[0].releaseDates[0]
-    }
 
     private val getMovieDetailsUseCase = mockk<GetMovieDetailsUseCase>() {
         coEvery { execute(any()) } returns fullSpiderVerseMovieDetails
@@ -74,10 +63,9 @@ class DetailsViewModelTest {
         val result = viewModel.state.value.data
 
         //then
+        assertTrue(result is DetailsScreenData.Success)
         assertEquals(fullSpiderVerseMovieDetails, result)
-        coVerify {
-            getMovieDetailsUseCase.execute(any())
-        }
+        coVerify { getMovieDetailsUseCase.execute(any()) }
     }
 
     @Test
@@ -93,10 +81,9 @@ class DetailsViewModelTest {
         val result = viewModel.state.value.data
 
         //then
+        assertTrue(result is DetailsScreenData.Success)
         assertEquals(detailsWithoutReleaseDate, result)
-        coVerify {
-            getMovieDetailsUseCase.execute(any())
-        }
+        coVerify { getMovieDetailsUseCase.execute(any()) }
     }
 
     @Test
@@ -111,9 +98,7 @@ class DetailsViewModelTest {
         //then
         assertTrue(result is DetailsScreenData.Error)
         assertTrue((result as DetailsScreenData.Error).exception is IOException)
-        coVerify {
-            getMovieDetailsUseCase.execute(any())
-        }
+        coVerify { getMovieDetailsUseCase.execute(any()) }
     }
 
     @Test
@@ -134,8 +119,6 @@ class DetailsViewModelTest {
         //then
         assertTrue(result is DetailsScreenData.Error)
         assertTrue((result as DetailsScreenData.Error).exception is HttpException)
-        coVerify {
-            getMovieDetailsUseCase.execute(any())
-        }
+        coVerify { getMovieDetailsUseCase.execute(any()) }
     }
 }

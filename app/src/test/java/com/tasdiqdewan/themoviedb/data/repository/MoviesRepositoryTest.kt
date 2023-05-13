@@ -1,17 +1,15 @@
-package com.tasdiqdewan.themoviedb
+package com.tasdiqdewan.themoviedb.data.repository
 
 import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.tasdiqdewan.themoviedb.data.ApiServices
 import com.tasdiqdewan.themoviedb.data.repository.MoviesRepository
-import com.tasdiqdewan.themoviedb.ui.details.DetailsViewModel
 import com.tasdiqdewan.utils.fake.FakeDataSource
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -31,7 +29,7 @@ class MoviesRepositoryTest {
     private lateinit var repository: MoviesRepository
 
     private val apiServices = mockk<ApiServices>(relaxed = true) {
-        coEvery { getPopularMoviesList(any()) } returns Response.success(FakeDataSource.FAKE_POPULAR_MOVIES_RESPONSE)
+        coEvery { getPopularMoviesList(any()) } returns Response.success(FakeDataSource.FAKE_POPULAR_MOVIES_RESPONSE_DTO)
         coEvery { getMovieDetails(any()) } returns Response.success(FakeDataSource.FAKE_SPIDER_VERSE_MOVIE_DETAILS_DTO)
         coEvery { getMovieReleaseDates(any()) } returns Response.success(FakeDataSource.FAKE_SPIDER_VERSE_RELEASE_DATE_DTO)
     }
@@ -60,7 +58,7 @@ class MoviesRepositoryTest {
         val result = repository.getPopularMoviesList()
 
         //then
-        assertEquals(FakeDataSource.FAKE_POPULAR_MOVIES_RESPONSE, result.body())
+        assertEquals(FakeDataSource.FAKE_POPULAR_MOVIES_RESPONSE_DTO, result.body())
         assertTrue(result.isSuccessful)
         coVerify {
             apiServices.getPopularMoviesList(any())

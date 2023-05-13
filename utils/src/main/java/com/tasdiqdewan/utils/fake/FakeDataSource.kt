@@ -3,6 +3,8 @@ package com.tasdiqdewan.utils.fake
 import com.tasdiqdewan.utils.domain.Genre
 import com.tasdiqdewan.utils.domain.MovieCollection
 import com.tasdiqdewan.utils.domain.MovieDetails
+import com.tasdiqdewan.utils.domain.MovieResult
+import com.tasdiqdewan.utils.domain.MoviesList
 import com.tasdiqdewan.utils.domain.ReleaseDate
 import com.tasdiqdewan.utils.dto.CountryDto
 import com.tasdiqdewan.utils.dto.GenreDto
@@ -10,10 +12,11 @@ import com.tasdiqdewan.utils.dto.LanguageDto
 import com.tasdiqdewan.utils.dto.MovieCollectionDto
 import com.tasdiqdewan.utils.dto.MovieDetailsResponseDto
 import com.tasdiqdewan.utils.dto.MovieReleaseDatesResponseDto
-import com.tasdiqdewan.utils.dto.MoviesListResponse
+import com.tasdiqdewan.utils.dto.MoviesListResponseDto
 import com.tasdiqdewan.utils.dto.ProductionCompanyDto
 import com.tasdiqdewan.utils.dto.ReleaseDateDto
 import com.tasdiqdewan.utils.dto.ReleaseDateResultDto
+import com.tasdiqdewan.utils.dto.ResultDto
 
 object FakeDataSource {
     val FAKE_SPIDER_VERSE_MOVIE_DETAILS_DTO = MovieDetailsResponseDto(
@@ -127,10 +130,10 @@ object FakeDataSource {
         note = ""
     )
 
-    val FAKE_POPULAR_MOVIES_RESPONSE = MoviesListResponse(
+    val FAKE_POPULAR_MOVIES_RESPONSE_DTO = MoviesListResponseDto(
         page = 1,
         results = listOf(
-            MoviesListResponse.Result(
+            ResultDto(
                 adult = false,
                 backdropPath = "/3CxUndGhUcZdt1Zggjdb2HkLLQX.jpg",
                 genreIds = listOf(28, 12, 878),
@@ -149,5 +152,26 @@ object FakeDataSource {
         ),
         totalPages = 38259,
         totalResults = 765167
+    )
+
+    val FAKE_POPULAR_MOVIES_RESPONSE = MoviesList(
+        page = 1,
+        results = listOf(
+            MovieResult(
+                adult = false,
+                backdropPath = "/3CxUndGhUcZdt1Zggjdb2HkLLQX.jpg",
+                genreIds = listOf(28, 12, 878),
+                id = 640146,
+                originalLanguage = "en",
+                originalTitle = "Ant-Man and the Wasp: Quantumania",
+                overview = "Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.",
+                popularity = 3501.526,
+                posterPath = "/qnqGbB22YJ7dSs4o6M7exTpNxPz.jpg",
+                releaseDate = "2023-02-15",
+                title = "Ant-Man and the Wasp: Quantumania",
+                voteAverage = 6.5,
+                voteCount = 2434
+            )
+        ),
     )
 }
