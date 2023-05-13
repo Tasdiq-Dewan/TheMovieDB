@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="user_score">User Score</string>
+    <string name="io_exception_dialog">An error occurred while retrieving data. Please check your internet connection and try again.</string>
+    <string name="other_exception_dialog">An unexpected error occurred while trying to retrieve data. Please try again.</string>
+    <string name="error_screen_title">An error occurred</string>
+    <string name="error_dismiss">Dismiss</string>
+    <string name="retry">Retry</string>
 </resources>

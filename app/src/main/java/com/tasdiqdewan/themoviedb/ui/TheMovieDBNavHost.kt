@@ -59,7 +59,11 @@ fun TheMovieDBNavHost(
                 homeViewModel.getPopularMovies()
                 HomeScreen(
                     state = homeState,
-                    navigateToDetails = { id: Int -> navController.navigate(TMDBRoutes.Details.route + "/${id}") }
+                    navigateToDetails = { id: Int -> navController.navigate(TMDBRoutes.Details.route + "/${id}") },
+                    onDismissError = { navController.navigate(TMDBRoutes.Home.route) {
+                            popUpTo(TMDBRoutes.Home.route) { inclusive = true }
+                        }
+                    }
                 )
             }
             composable(
@@ -69,12 +73,17 @@ fun TheMovieDBNavHost(
                 navBackStackEntry.arguments?.getInt("movieId")?.let {
                     detailsViewModel.setLoading(true)
                     detailsViewModel.getMovieDetails(it)
+                    DetailsScreen(
+                        state = detailsState.data,
+                        isLoading = detailsState.isLoading,
+                        setLoading = { loading: Boolean -> detailsViewModel.setLoading(loading) },
+                        onDismissError = { navController.popBackStack() },
+                        retry = {
+                            detailsViewModel.setLoading(true)
+                            detailsViewModel.getMovieDetails(it)
+                        }
+                    )
                 }
-                DetailsScreen(
-                    state = detailsState.data,
-                    isLoading = detailsState.isLoading,
-                    setLoading = { loading: Boolean -> detailsViewModel.setLoading(loading) }
-                )
             }
             composable(TMDBRoutes.Search.route) {
                 Text(text = "Search")

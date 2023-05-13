@@ -30,6 +30,7 @@ import com.tasdiqdewan.utils.domain.MovieResult
 fun HomeScreen(
     state: HomeScreenState,
     navigateToDetails: (Int) -> Unit,
+    onDismissError: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -42,7 +43,10 @@ fun HomeScreen(
                     navigateToDetails = navigateToDetails,
                 )
             }
-            is HomePopularMovies.Error -> ErrorScreen()
+            is HomePopularMovies.Error -> ErrorScreen(
+                (state.popularMovies as HomePopularMovies.Error).exception,
+                onDismiss = onDismissError
+            )
         }
     }
 }
@@ -89,7 +93,7 @@ fun PopularMoviesGrid(
 @Composable
 fun HomeScreenPreview() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState(), {})
+        HomeScreen(state = HomeScreenState(), {}, {})
     }
 }
 
@@ -97,6 +101,6 @@ fun HomeScreenPreview() {
 @Composable
 fun HomeScreenPreviewDark() {
     TheMovieDBTheme {
-        HomeScreen(state = HomeScreenState(), {})
+        HomeScreen(state = HomeScreenState(), {}, {})
     }
 }

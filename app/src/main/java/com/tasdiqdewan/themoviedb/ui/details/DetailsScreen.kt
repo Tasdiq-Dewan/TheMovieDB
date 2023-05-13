@@ -13,6 +13,8 @@ fun DetailsScreen(
     isLoading: Boolean,
     state: DetailsScreenData,
     setLoading: (Boolean) -> Unit,
+    onDismissError: () -> Unit,
+    retry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     if(isLoading) {
@@ -21,7 +23,11 @@ fun DetailsScreen(
     when(state) {
         is DetailsScreenData.Nothing -> {  }
         is DetailsScreenData.Error -> {
-            ErrorScreen()
+            ErrorScreen(
+                state.exception,
+                onDismiss = onDismissError,
+                retry = retry
+            )
             setLoading(false)
         }
         is DetailsScreenData.Success -> {
