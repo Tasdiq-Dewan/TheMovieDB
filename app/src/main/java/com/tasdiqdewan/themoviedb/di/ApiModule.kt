@@ -57,8 +57,25 @@ object ApiModule {
             .addInterceptor(loggingInterceptor)
             .build()
     } else {
+        val requestInterceptor = Interceptor { chain ->
+            val url = chain.request()
+                .url
+                .newBuilder()
+                //.addQueryParameter("api_key", API_KEY)
+                .build()
+
+            val request = chain.request()
+                .newBuilder()
+                .url(url)
+                .addHeader("Authorization", "Bearer $BEARER_TOKEN")
+                .addHeader("Content-Type", "application/json;charset=utf-8")
+                .build()
+            return@Interceptor chain.proceed(request)
+        }
+
         OkHttpClient
             .Builder()
+            .addInterceptor(requestInterceptor)
             .build()
     }
 

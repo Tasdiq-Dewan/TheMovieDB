@@ -51,6 +51,9 @@ fun TheMovieDBNavHost(
     ) { contentPadding ->
         val homeState by homeViewModel.state.collectAsState()
         val detailsState by detailsViewModel.state.collectAsState()
+        if(currentDestination?.route != TMDBRoutes.Details.route) {
+            detailsViewModel.clearState()
+        }
         NavHost(navController = navController, startDestination = TMDBRoutes.Home.route, modifier = Modifier.padding(contentPadding)) {
             composable(TMDBRoutes.Home.route) {
                 homeViewModel.getPopularMovies()
@@ -64,9 +67,14 @@ fun TheMovieDBNavHost(
                 arguments = listOf(navArgument("movieId") { type = NavType.IntType })
             ) { navBackStackEntry ->
                 navBackStackEntry.arguments?.getInt("movieId")?.let {
+                    detailsViewModel.setLoading(true)
                     detailsViewModel.getMovieDetails(it)
                 }
-                DetailsScreen(detailsState.data)
+                DetailsScreen(
+                    state = detailsState.data,
+                    isLoading = detailsState.isLoading,
+                    setLoading = { loading: Boolean -> detailsViewModel.setLoading(loading) }
+                )
             }
             composable(TMDBRoutes.Search.route) {
                 Text(text = "Search")
