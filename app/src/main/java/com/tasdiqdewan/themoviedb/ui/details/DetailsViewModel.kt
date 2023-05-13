@@ -18,7 +18,7 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase
 ) : ViewModel() {
-    private var _state = MutableStateFlow(DetailsScreenState(DetailsScreenData.Loading))
+    private var _state = MutableStateFlow(DetailsScreenState())
     val state: StateFlow<DetailsScreenState> = _state.asStateFlow()
 
 
@@ -26,15 +26,16 @@ class DetailsViewModel @Inject constructor(
 
     }
 
-    private suspend fun clearState() {
-        _state.value.copy(DetailsScreenData.Loading).let {
-            _state.emit(it)
-        }
+    fun clearState() {
+        _state.value = DetailsScreenState()
+    }
+    fun setLoading(loading: Boolean) {
+        _state.value = _state.value.copy(isLoading = loading)
     }
 
     fun getMovieDetails(id: Int) {
+        //if(state.value.data !is DetailsScreenData.Loading) clearState()
         viewModelScope.launch {
-            //if(!(_state.value.data is DetailsScreenData.Loading)) clearState()
             val movieDetails: DetailsScreenData = try {
                 getMovieDetailsUseCase.execute(id)
             }
@@ -51,12 +52,7 @@ class DetailsViewModel @Inject constructor(
                 DetailsScreenData.Error(e)
             }
 
-            if (movieDetails != null) {
-                _state.value.copy(data = movieDetails as DetailsScreenData).let {
-                    Log.d("DETAILS", it.data.toString())
-                    _state.emit(it)
-                }
-            }
+            _state.value = DetailsScreenState(data = movieDetails)
         }
     }
 }
