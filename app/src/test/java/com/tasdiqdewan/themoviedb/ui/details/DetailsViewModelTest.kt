@@ -13,9 +13,8 @@ import org.junit.Rule
 import org.junit.rules.TestRule
 import retrofit2.Response
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.tasdiqdewan.themoviedb.data.usecase.GetMovieDetailsUseCase
-import com.tasdiqdewan.themoviedb.ui.details.DetailsScreenData
-import com.tasdiqdewan.themoviedb.ui.details.DetailsViewModel
+import com.tasdiqdewan.themoviedb.data.usecase.GetMovieDetailsUseCaseTest
+import com.tasdiqdewan.themoviedb.data.usecase.GetMovieDetailsUseCaseImpl
 import com.tasdiqdewan.utils.dto.MovieDetailsResponseDto
 import io.mockk.coVerify
 import io.mockk.unmockkAll
@@ -37,7 +36,7 @@ class DetailsViewModelTest {
         releaseDate = FakeDataSource.FAKE_SPIDER_VERSE_RELEASE_DATE
     )
 
-    private val getMovieDetailsUseCase = mockk<GetMovieDetailsUseCase>() {
+    private val getMovieDetailsUseCase = mockk<GetMovieDetailsUseCaseImpl> {
         coEvery { execute(any()) } returns fullSpiderVerseMovieDetails
     }
 

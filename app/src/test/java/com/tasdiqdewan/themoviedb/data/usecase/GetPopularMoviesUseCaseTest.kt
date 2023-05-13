@@ -71,7 +71,7 @@ class GetPopularMoviesUseCaseTest {
 
         //then
         assertFailsWith<IOException> {
-            val result = getPopularMoviesUseCase.execute()
+            getPopularMoviesUseCase.execute()
         }
         coVerify { repository.getPopularMoviesList(any()) }
     }
@@ -89,7 +89,7 @@ class GetPopularMoviesUseCaseTest {
 
         //then
         assertFailsWith<HttpException> {
-            val result = getPopularMoviesUseCase.execute()
+            getPopularMoviesUseCase.execute()
         }
         coVerify { repository.getPopularMoviesList(any()) }
     }

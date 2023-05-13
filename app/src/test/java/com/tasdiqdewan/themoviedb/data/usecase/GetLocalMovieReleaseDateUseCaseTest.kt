@@ -89,7 +89,7 @@ class GetLocalMovieReleaseDateUseCaseTest {
         coEvery { repository.getMovieReleaseDates(any()) } throws IOException()
 
         assertFailsWith<IOException> {
-            val result = getLocalMovieReleaseDateUseCase.execute(324857)
+            getLocalMovieReleaseDateUseCase.execute(324857)
         }
         coVerify { repository.getMovieReleaseDates(any()) }
     }
@@ -106,7 +106,7 @@ class GetLocalMovieReleaseDateUseCaseTest {
         coEvery { repository.getMovieReleaseDates(any()) } throws exception
 
         assertFailsWith<HttpException> {
-            val result = getLocalMovieReleaseDateUseCase.execute(324857)
+            getLocalMovieReleaseDateUseCase.execute(324857)
         }
         coVerify { repository.getMovieReleaseDates(any()) }
     }
