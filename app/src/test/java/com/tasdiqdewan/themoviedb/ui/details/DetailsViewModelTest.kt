@@ -16,6 +16,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.tasdiqdewan.themoviedb.data.usecase.GetMovieDetailsUseCaseTest
 import com.tasdiqdewan.themoviedb.data.usecase.GetMovieDetailsUseCaseImpl
 import com.tasdiqdewan.utils.dto.MovieDetailsResponseDto
+import com.tasdiqdewan.utils.exceptions.MovieDetailsNullException
 import io.mockk.coVerify
 import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runTest
@@ -86,7 +87,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun getMovieDetails_shouldGetIOException() = runTest {
+    fun getMovieDetails_shouldThrowIOException() = runTest {
         //given
         coEvery { getMovieDetailsUseCase.execute(any()) } throws IOException()
 
@@ -101,7 +102,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun getMovieDetails_shouldGetHTTPException() = runTest {
+    fun getMovieDetails_shouldThrowHTTPException() = runTest {
         //given
         val response: Response<MovieDetailsResponseDto> = Response.error(
             400,
@@ -118,6 +119,21 @@ class DetailsViewModelTest {
         //then
         assertTrue(result is DetailsScreenData.Error)
         assertTrue((result as DetailsScreenData.Error).exception is HttpException)
+        coVerify { getMovieDetailsUseCase.execute(any()) }
+    }
+
+    @Test
+    fun getMovieDetails_shouldThrowMovieDetailsNullException() = runTest {
+        //given
+        coEvery { getMovieDetailsUseCase.execute(any()) } throws MovieDetailsNullException()
+
+        //when
+        viewModel.getMovieDetails(324857)
+        val result = viewModel.state.value.data
+
+        //then
+        assertTrue(result is DetailsScreenData.Error)
+        assertTrue((result as DetailsScreenData.Error).exception is MovieDetailsNullException)
         coVerify { getMovieDetailsUseCase.execute(any()) }
     }
 }
