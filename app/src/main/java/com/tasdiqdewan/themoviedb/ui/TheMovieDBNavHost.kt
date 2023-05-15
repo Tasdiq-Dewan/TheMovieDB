@@ -3,6 +3,7 @@ package com.tasdiqdewan.themoviedb.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +35,7 @@ import com.tasdiqdewan.themoviedb.ui.details.DetailsScreen
 import com.tasdiqdewan.themoviedb.ui.details.DetailsViewModel
 import com.tasdiqdewan.themoviedb.ui.home.HomeScreen
 import com.tasdiqdewan.themoviedb.ui.home.HomeViewModel
+import com.tasdiqdewan.themoviedb.ui.info.InformationScreen
 import com.tasdiqdewan.utils.TMDBRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,7 +63,9 @@ fun TheMovieDBNavHost(
                     state = homeState,
                     navigateToDetails = { id: Int -> navController.navigate(TMDBRoutes.Details.route + "/${id}") },
                     onDismissError = { navController.navigate(TMDBRoutes.Home.route) {
-                            popUpTo(TMDBRoutes.Home.route) { inclusive = true }
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = false
+                            }
                         }
                     }
                 )
@@ -87,6 +91,9 @@ fun TheMovieDBNavHost(
             }
             composable(TMDBRoutes.Search.route) {
                 Text(text = "Search")
+            }
+            composable(TMDBRoutes.Info.route) {
+                InformationScreen()
             }
         }
     }
@@ -120,7 +127,7 @@ fun TMDBBottomBar(
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier
 ) {
-    val screens = listOf(TMDBRoutes.Home, TMDBRoutes.Search)
+    val screens = listOf(TMDBRoutes.Home, TMDBRoutes.Search, TMDBRoutes.Info)
    NavigationBar(
        modifier = modifier,
        containerColor = MaterialTheme.colorScheme.primary,
@@ -163,6 +170,7 @@ fun TMBDNavigationIcon(screen: TMDBRoutes) {
     when(screen.route) {
         TMDBRoutes.Home.route -> Icon(Icons.Filled.Home, contentDescription = null)
         TMDBRoutes.Search.route -> Icon(Icons.Filled.Search, contentDescription = null)
-        else -> Icon(Icons.Filled.Home, contentDescription = null)
+        TMDBRoutes.Info.route -> Icon(Icons.Filled.Info, contentDescription = null)
+        else -> {  }
     }
 }
