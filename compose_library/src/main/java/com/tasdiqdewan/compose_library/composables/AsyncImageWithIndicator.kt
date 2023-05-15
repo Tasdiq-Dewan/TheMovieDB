@@ -19,11 +19,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.tasdiqdewan.utils.Constants
+import com.tasdiqdewan.utils.PosterSize
 
 @Composable
 fun AsyncImageWithIndicator(
@@ -70,4 +72,10 @@ fun AsyncImageWithIndicator(
     } else {
         showImage.value = true
     }
+}
+
+@Preview
+@Composable
+fun AsyncImageWithCircularIndicatorPreview() {
+    AsyncImageWithIndicator(posterPath = "", posterSize = PosterSize.W780.size)
 }

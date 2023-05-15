@@ -41,7 +41,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurfaceVariant = NeutralVariant80
 )
 
-private val LightColorScheme = lightColorScheme(
+ val LightColorScheme = lightColorScheme(
     primary = DarkBlue,
     onPrimary = White,
     primaryContainer = DarkBlue90,
