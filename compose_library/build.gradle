@@ -33,13 +33,13 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.4'
+        kotlinCompilerExtensionVersion '1.4.7'
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
 
@@ -55,7 +55,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 
     // Coil
-    implementation "io.coil-kt:coil-compose:2.2.2"
+    implementation "io.coil-kt:coil-compose:2.3.0"
     implementation project(path: ':utils')
 
     testImplementation 'junit:junit:4.13.2'
