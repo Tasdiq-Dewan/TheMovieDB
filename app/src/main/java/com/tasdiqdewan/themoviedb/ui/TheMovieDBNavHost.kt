@@ -36,6 +36,7 @@ import com.tasdiqdewan.themoviedb.ui.details.DetailsViewModel
 import com.tasdiqdewan.themoviedb.ui.home.HomeScreen
 import com.tasdiqdewan.themoviedb.ui.home.HomeViewModel
 import com.tasdiqdewan.themoviedb.ui.info.InformationScreen
+import com.tasdiqdewan.themoviedb.ui.search.SearchScreen
 import com.tasdiqdewan.utils.TMDBRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,7 +91,7 @@ fun TheMovieDBNavHost(
                 }
             }
             composable(TMDBRoutes.Search.route) {
-                Text(text = "Search")
+                SearchScreen()
             }
             composable(TMDBRoutes.Info.route) {
                 InformationScreen()
